@@ -40,7 +40,7 @@ To define `Model` class you have to define `Meteor.Collection` first. It's just 
 var Posts = new Meteor.Collection('posts');
 
 // Define Model
-var Post = new Model(Posts, function() {
+var Post = Model(Posts, function() {
   // Describe Model class
 });
 ```
@@ -76,7 +76,7 @@ When defining `Model` class you have to pass as a second parameter function that
 You can pass a constructor function as a parameter of this method.
 
 ```js
-var Post = new Model(Posts, function () {
+var Post = Model(Posts, function () {
   this.initialize(function () {
     // Do some stuff when object of given class is created
     this.creationDate = new Date();
@@ -89,7 +89,7 @@ var Post = new Model(Posts, function () {
 Defines model's properties with their default values.
 
 ```js
-var Post = new Model(Posts, function () {
+var Post = Model(Posts, function () {
   this.fields({
     title: null,
     commentsCount: 0
@@ -102,7 +102,7 @@ var Post = new Model(Posts, function () {
 Defines model's properties that are required to save document into database. Each required field has its corresponding error massage that is thrown when the field is not present.
 
 ```js
-var Post = new Model(Posts, function () {
+var Post = Model(Posts, function () {
   this.fields({
     title: null
   });
@@ -118,7 +118,7 @@ var Post = new Model(Posts, function () {
 Defines model's methods.
 
 ```js
-var User = new Model(Users, function () {
+var User = Model(Users, function () {
   this.fields({
     birthDate: null
   });
@@ -149,7 +149,7 @@ Define model's events being executed before and after save, insert, update or re
 `preSave` event is executed both when inserting or updating document into database. `preSave` is not executed when removing.
 
 ```js
-var Post = new Model(Posts, function () {
+var Post = Model(Posts, function () {
   this.events({
     preUpdate: function () {
       this.updatedAt = new Date();
@@ -163,7 +163,7 @@ var Post = new Model(Posts, function () {
 Behaviours are often repeated actions that can be automated and shipped as an addon for the model. As an example take situation when you have to update `createdAt` and `updatedAt` fields whenever document is saved in a database. Instead doing it by hand you can just use `timestampable` behaviour and it will be done automatically.
 
 ```js
-var Post = new Model(Posts, function () {
+var Post = Model(Posts, function () {
   this.behaviour('timestampable', {
     // Pass behaviour options if needed
   });
