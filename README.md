@@ -31,7 +31,7 @@ $ mrt add zeitgeist-model
 
 ## API
 
-### Basics
+### Creating model
 
 To define `Model` class you have to define `Meteor.Collection` first. It's just as simple as in the example below:
 
@@ -56,6 +56,16 @@ p.save(); // Executes `Posts.insert()` and returns document's id
 p.save(); // Executes `Posts.update()`
 p.remove(); // Executes `Posts.remove()`
 ```
+
+### Fetching documents from database
+
+You can convert document fetched from database to the object of given class just by passing this document to the class constructor.
+
+```js
+var p = new Post(Posts.findOne());
+```
+
+For now there is no direct way to fetch documents from database that are automatically object of a given class. I'm open for suggestions how it could be achieved without messing in Meteor's code.
 
 ### Model definition
 
