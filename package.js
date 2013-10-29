@@ -16,6 +16,7 @@ Package.on_use(function (api) {
     'ZeitgeistBehaviours',
     'Model',
     'Behaviour',
+    'Validator',
     'Behaviours'
   ], ['client', 'server']);
 });
