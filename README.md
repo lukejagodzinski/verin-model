@@ -65,7 +65,17 @@ You can convert document fetched from database to the object of given class just
 var p = new Post(Posts.findOne());
 ```
 
-For now there is no direct way to fetch documents from database that are automatically object of a given class. I'm open for suggestions how it could be achieved without messing in Meteor's code.
+You can fetch objects from database that are automatically transformed to you model class using [transform option](https://www.eventedmind.com/feed/YNiRTAfN38Ehf5Brn) on Meteor Collection.
+
+```js
+var Posts = new Meteor.Collection('posts', {
+  transform: function (doc) {
+    return new Post(doc);
+  }
+});
+
+var Post = Model(Posts, function() { /* ... */ });
+```
 
 ### Model definition
 
