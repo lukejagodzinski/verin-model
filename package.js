@@ -7,16 +7,17 @@ Package.on_use(function (api) {
   
   api.add_files([
     'lib/model.js',
-    'lib/behaviour.js',
+    'lib/behavior.js',
     'lib/validator.js',
     'lib/validators/string.js'
     ], ['client', 'server']);
   
   api.export([
     'Model',
-    'Behaviour',
+    'Behavior',
+    'Behaviors',
     'Validator',
-    'StringValidator',
-    'Behaviours'
+    'Validators',
+    'StringValidator'
   ], ['client', 'server']);
 });
