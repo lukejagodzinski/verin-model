@@ -7,16 +7,16 @@ Package.on_use(function (api) {
   
   api.add_files([
     'lib/model.js',
-    'lib/behaviour.js'
+    'lib/behaviour.js',
+    'lib/validator.js',
+    'lib/validators/string.js'
     ], ['client', 'server']);
   
   api.export([
-    'ZeitgeistModel',
-    'ZeitgeistBehaviour',
-    'ZeitgeistBehaviours',
     'Model',
     'Behaviour',
     'Validator',
+    'StringValidator',
     'Behaviours'
   ], ['client', 'server']);
 });
