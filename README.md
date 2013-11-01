@@ -33,7 +33,7 @@ $ mrt add zeitgeist-model
 
 ### Creating model
 
-To define `Model` class you have to define `Meteor.Collection` first. It's just as simple as in the example below:
+To define model class you have to define `Meteor.Collection` first. It's just as simple as in the example below:
 
 ```js
 // Define Collection
@@ -79,61 +79,62 @@ var Post = Model(Posts, function() { /* ... */ });
 
 ### Model definition
 
-When defining `Model` class you have to pass as a second parameter function that describes this model. In this function you can use several methods that are provided to describe model class.
+The `Model` function can take as a second parameter function or object that defines that model. There're several functions/properties that can be used inside this function/object.
 
-#### this.initialize()
+#### Constructor
 
-You can pass a constructor function as a parameter of this method.
+You can pass constructor function as parameter of the `this.setConstructor()` function.
 
 ```js
 var Post = Model(Posts, function () {
-  this.initialize(function () {
+  this.setConstructor(function (attrs) {
     // Do some stuff when object of given class is created
+    _.extend(this, attrs);
     this.creationDate = new Date();
   });
 });
 ```
 
-#### this.fields()
+#### Fields
 
-Defines model's properties with their default values.
+To define model's properties with their default values use `this.setFields()` function.
 
 ```js
 var Post = Model(Posts, function () {
-  this.fields({
+  this.setFields({
     title: null,
     commentsCount: 0
   });
 });
 ```
 
-#### this.required()
+#### Required fields
 
-Defines model's properties that are required to save document into database. Each required field has its corresponding error massage that is thrown when the field is not present.
+To define required fields use `this.setRequired()` function. Each required field has its corresponding error massage that is thrown when the field is not present.
 
 ```js
 var Post = Model(Posts, function () {
-  this.fields({
+  this.setFields({
     title: null
   });
   
-  this.required({
+  this.setRequired({
     title: 'You have to name post'
   });
 });
 ```
 
-#### this.methods()
+#### Methods
 
-Defines model's methods.
+Use `this.setMethods()` function to defines model's methods.
 
 ```js
 var User = Model(Users, function () {
-  this.fields({
+  this.setFields({
     birthDate: null
   });
   
-  this.methods({
+  this.setMethods({
     getAge: function () {
       var age;
       // Calculate age by taking actual date and `birthDate`
@@ -143,9 +144,9 @@ var User = Model(Users, function () {
 });
 ```
 
-#### this.events()
+#### Events
 
-Define model's events being executed before and after save, insert, update or remove. There are following defined events:
+Use `this.setEvents()` function to define model's events that will be executed before and after save, insert, update or remove. There are following defined events:
 
 - preSave
 - preInsert
@@ -160,7 +161,7 @@ Define model's events being executed before and after save, insert, update or re
 
 ```js
 var Post = Model(Posts, function () {
-  this.events({
+  this.setEvents({
     preUpdate: function () {
       this.updatedAt = new Date();
     }
@@ -168,13 +169,13 @@ var Post = Model(Posts, function () {
 });
 ```
 
-#### this.behaviour()
+#### Behaviors
 
-Behaviours are often repeated actions that can be automated and shipped as an addon for the model. As an example take situation when you have to update `createdAt` and `updatedAt` fields whenever document is saved in a database. Instead doing it by hand you can just use `timestampable` behaviour and it will be done automatically.
+Use `this.setBehaviour()` function to set model's behaviors. Behaviours are often repeated actions that can be automated and shipped as an addon for the model. As an example take situation when you have to update `createdAt` and `updatedAt` fields whenever document is saved in a database. Instead doing it by hand you can just use `timestampable` behaviour and it will be done automatically.
 
 ```js
 var Post = Model(Posts, function () {
-  this.behaviour('timestampable', {
+  this.setBehaviour('timestampable', {
     // Pass behaviour options if needed
   });
 });
