@@ -1,4 +1,4 @@
-# ZeitgeistModel
+# ReactiveModel
 
 Model layer for Meteor
 
@@ -6,14 +6,13 @@ Model layer for Meteor
 
 If you have any suggestions or want to write new features or behaviours please contact me, or just create pull request.
 
-The ZeitgeistModel package is a part of a bigger project I'm working on, named [Zeitgeist Portal](https://github.com/jagi/zeitgeist). It's an open source information portal for [The Zeitgeist Movement](http://thezeitgeistmovement.com) chapters around the world, but can be used by anyone to create their own information portal. If you know Meteor and want to help please contact me. The Zeitgeist Movement is non profit organization that fights for a betterment of mankind. For more information go the official [website](http://thezeitgeistmovement.com).
+The ReactiveModel package is a fork of [ZeitgeistModel](https://github.com/jagi/zeitgeistmodel). 
 
 ## Functionalities
 
-- Fields and their default values
+- Reactive Properties
 - Methods definition
-- Required fields defnition with error messages
-- Validators (soon)
+- Validators
 - Behaviours
 - `Pre` and `Post` events
 
