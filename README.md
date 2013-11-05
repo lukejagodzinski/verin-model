@@ -2,6 +2,9 @@
 
 Model layer for Meteor
 
+#DO NOT USE, NOT READY!
+Please Note that I am still rebuilding this and large sections of this readme need to be rewritten.
+
 ## Contribution
 
 If you have any suggestions or want to write new features or behaviours please contact me, or just create pull request.
@@ -22,10 +25,10 @@ MIT
 
 ## Installation
 
-ZeitgeistModel can be installed with [Meteorite](https://github.com/oortcloud/meteorite/).
+#ReactiveModel can be installed with [Meteorite](https://github.com/oortcloud/meteorite/).
 
 ```sh
-$ mrt add zeitgeist-model
+$ mrt add (comming soon)
 ```
 
 ## API
