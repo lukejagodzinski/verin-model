@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-  api.use(['meteor', 'underscore', 'underscore-string']);
+  api.use(['meteor', 'underscore']);
   
   api.add_files([
     'lib/model.js',
