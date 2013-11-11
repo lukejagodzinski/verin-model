@@ -3,9 +3,11 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-  api.use(['meteor', 'underscore']);
+  api.use(['meteor', 'underscore', 'zeitgeist-class']);
   
   api.add_files([
+    'lib/model_utils.js',
+    'lib/base_model.js',
     'lib/model.js',
     'lib/behavior.js',
     'lib/validator.js',
