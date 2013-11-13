@@ -6,9 +6,11 @@ Package.on_use(function (api) {
   api.use(['meteor', 'underscore', 'zeitgeist-class']);
   
   api.add_files([
+    'lib/definition.js',
     'lib/model_utils.js',
-    'lib/base_model.js',
+    'lib/model_base.js',
     'lib/model.js',
+    'lib/behavior_base.js',
     'lib/behavior.js',
     'lib/validator.js',
     'lib/validators/string.js'
