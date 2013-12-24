@@ -11,11 +11,10 @@ Package.on_use(function (api) {
     'lib/model_base.js',
     'lib/model.js',
     'lib/behavior.js'
-    ], ['client', 'server']);
+  ], ['client', 'server']);
   
   api.export([
     'Model',
-    'Behavior',
-    'Behaviors'
+    'Behavior'
   ], ['client', 'server']);
 });
