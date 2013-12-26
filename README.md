@@ -1,12 +1,24 @@
-# ZeitgeistModel
+# Verin Model
 
 Model layer for Meteor
 
-## Contribution
+**Table of Contents**
 
-If you have any suggestions or want to write new features or behaviours please contact me, or just create pull request.
-
-The ZeitgeistModel package is a part of a bigger project I'm working on, named [Zeitgeist Portal](https://github.com/jagi/zeitgeist). It's an open source information portal for [The Zeitgeist Movement](http://thezeitgeistmovement.com) chapters around the world, but can be used by anyone to create their own information portal. If you know Meteor and want to help please contact me. The Zeitgeist Movement is non profit organization that fights for a betterment of mankind. For more information go the official [website](http://thezeitgeistmovement.com).
+- [Functionalities](#functionalities)
+- [Installation](#installation)
+- [Key Concepts](#key-concepts)
+  - [Saving, updating and removing documents](#saving-updating-and-removing-documents)
+  - [Fetching documents](#fetching-documents)
+  - [Model schema](#model-schema)
+    - [Constructor](#constructor)
+    - [Fields](#fields)
+    - [Required fields](#required-fields)
+    - [Methods](#methods)
+    - [Hooks](#hooks)
+    - [Behaviors](#behaviors)
+- [Writing behaviors](#writing-behaviors)
+- [Contribution](#contribution)
+- [License](#license)
 
 ## Functionalities
 
@@ -14,22 +26,18 @@ The ZeitgeistModel package is a part of a bigger project I'm working on, named [
 - Methods definition
 - Required fields defnition with error messages
 - Validators (soon)
-- Behaviours
-- `Pre` and `Post` events
-
-## License
-
-MIT
+- Behaviors
+- `Before` and `After` save, insert, update and remove hooks
 
 ## Installation
 
-ZeitgeistModel can be installed with [Meteorite](https://github.com/oortcloud/meteorite/).
+Verin Model can be installed with [Meteorite](https://github.com/oortcloud/meteorite/).
 
 ```sh
-$ mrt add zeitgeist-model
+$ mrt add verin-model
 ```
 
-## API
+## Key Concepts
 
 ### Creating model
 
@@ -40,14 +48,15 @@ To define model class you have to define `Meteor.Collection` first. It's just as
 var Posts = new Meteor.Collection('posts');
 
 // Define Model
-var Post = Model(Posts, function() {
+var Post = Model('Post', {
+  collection: Posts
   // Describe Model class
 });
 ```
 
 ### Saving, updating and removing documents
 
-Each `Model` class has `save` and `remove` methods. Those methods use `Collection` passed to `Model` function. Thanks to that you no longer have to execute `insert`, `update` or `remove` methods on `Collection` object. See the example below.
+Each `Model` class has `save` and `remove` methods. Those methods use Meteor `Collection` passed to `Model`'s schema. Thanks to that you no longer have to execute `insert`, `update` or `remove` methods on `Collection` object explicitly. See the example below.
 
 ```js
 var p = new Post();
@@ -57,7 +66,7 @@ p.save(); // Executes `Posts.update()`
 p.remove(); // Executes `Posts.remove()`
 ```
 
-### Fetching documents from database
+### Fetching documents
 
 You can convert document fetched from database to the object of given class just by passing this document to the class constructor.
 
@@ -65,119 +74,118 @@ You can convert document fetched from database to the object of given class just
 var p = new Post(Posts.findOne());
 ```
 
-You can fetch objects from database that are automatically transformed to you model class using [transform option](https://www.eventedmind.com/feed/YNiRTAfN38Ehf5Brn) on Meteor Collection.
+You can also fetch objects from database that are automatically transformed to you model class by setting to `true` third argument of `Model` function.
 
 ```js
-var Posts = new Meteor.Collection('posts', {
-  transform: function (doc) {
-    return new Post(doc);
-  }
-});
-
-var Post = Model(Posts, function() { /* ... */ });
+var Post = Model(('Post', { collection: Posts }, true);
 ```
 
-### Model definition
+### Model schema
 
-The `Model` function can take as a second parameter function or object that defines that model. There're several functions/properties that can be used inside this function/object.
+The `Model` function takes as a second argument schema object that defines a model. There're several properties that can be used inside schema.
 
 #### Constructor
 
-You can pass constructor function as parameter of the `this.setConstructor()` function.
+You can pass constructor function as `constructor` parameter.
 
 ```js
-var Post = Model(Posts, function () {
-  this.setConstructor(function (attrs) {
-    // Do some stuff when object of given class is created
-    _.extend(this, attrs);
+var Post = Model('Post', {
+  collection: Posts,
+  constructor: function (attrs) {
+    // Do some stuff when creating object of given class
     this.creationDate = new Date();
-  });
+  }
 });
 ```
 
 #### Fields
 
-To define model's properties with their default values use `this.setFields()` function.
+To define model's properties with their default values use `fields` property.
 
 ```js
-var Post = Model(Posts, function () {
-  this.setFields({
+var Post = Model('Post', {
+  collection: Posts,
+  fields: {
     title: null,
     commentsCount: 0
-  });
+  }
 });
 ```
 
 #### Required fields
 
-To define required fields use `this.setRequired()` function. Each required field has its corresponding error massage that is thrown when the field is not present.
+To define required fields use `required` property. Each required field has its corresponding error massage that is thrown when the field is not present.
 
 ```js
-var Post = Model(Posts, function () {
-  this.setFields({
+var Post = Model('Post', {
+  collection: Posts,
+  fields: {
     title: null
-  });
-  
-  this.setRequired({
+  },
+  required: {
     title: 'You have to name post'
-  });
+  }
 });
 ```
 
 #### Methods
 
-Use `this.setMethods()` function to defines model's methods.
+Use `methods` property to defines model's methods.
 
 ```js
-var User = Model(Users, function () {
-  this.setFields({
+var User = Model('User', {
+  collection: Users,
+  fields: {
     birthDate: null
-  });
-  
-  this.setMethods({
+  },
+  methods: {
     getAge: function () {
       var age;
       // Calculate age by taking actual date and `birthDate`
       return age;
     }
-  });
+  }
 });
 ```
 
-#### Events
+#### Hooks
 
-Use `this.setEvents()` function to define model's events that will be executed before and after save, insert, update or remove. There are following defined events:
+Use `hooks` property to define model's hooks that will be executed before and after save, insert, update or remove. There are following defined events:
 
-- preSave
-- preInsert
-- preUpdate
-- preRemove
-- postSave
-- postInsert
-- postUpdate
-- postRemove
+- beforeSave
+- beforeInsert
+- beforeUpdate
+- beforeRemove
+- afterSave
+- afterInsert
+- afterUpdate
+- afterRemove
  
-`preSave` event is executed both when inserting or updating document into database. `preSave` is not executed when removing.
+`beforeSave` hook is executed both when inserting or updating document into database. `beforeSave` is not executed when removing.
 
 ```js
-var Post = Model(Posts, function () {
-  this.setEvents({
-    preUpdate: function () {
+var Post = Model('Post', {
+  collection: Posts,
+  hooks: {
+    beforeUpdate: function () {
       this.updatedAt = new Date();
     }
-  });
+  }
 });
 ```
 
 #### Behaviors
 
-Use `this.setBehaviour()` function to set model's behaviors. Behaviours are often repeated actions that can be automated and shipped as an addon for the model. As an example take situation when you have to update `createdAt` and `updatedAt` fields whenever document is saved in a database. Instead doing it by hand you can just use `timestampable` behaviour and it will be done automatically.
+Use `behaviors` property to set model's behaviors. Behaviors are often repeated actions that can be automated and shipped as an addon for the model. As an example take situation when you have to update `createdAt` and `updatedAt` fields whenever document is saved in a database. Instead doing it by hand you can just use `timestampable` behavior and it will be done automatically.
 
 ```js
-var Post = Model(Posts, function () {
-  this.setBehaviour('timestampable', {
-    // Pass behaviour options if needed
-  });
+var Post = Model('Post', {
+  collection: Posts,
+  behaviors: {
+    timestampable: {
+      // Pass behaviour options if needed
+    }
+  }
 });
 
 var p = new Post();
@@ -187,11 +195,19 @@ p.save(); // `updatedAt` field will be filled with a current date
 
 There are few behaviours already written for you but you can create your own:
 
-- [timestampable](https://github.com/jagi/zeitgeist-timestampable/) takes care of updating `createdAt` and `updatedAt` fields whenever document is save into database
-- [sluggable](https://github.com/jagi/zeitgeist-sluggable/) creates browser friendly version of field (string), e.g. from "The post title!" to "the-post-title"
-- [viewable](https://github.com/jagi/zeitgeist-viewable/) introduce views counter into model
-- [voteable](https://github.com/jagi/zeitgeist-voteable/) allows user to vote up/down on given document
+- [timestampable](https://github.com/jagi/verin-timestampable/) takes care of updating `createdAt` and `updatedAt` fields whenever document is save into database
+- [sluggable](https://github.com/jagi/verin-sluggable/) creates browser friendly version of field (string), e.g. from "The post title!" to "the-post-title"
+- [viewable](https://github.com/jagi/verin-viewable/) introduce views counter into model
+- [voteable](https://github.com/jagi/verin-voteable/) allows user to vote up/down on given document
 
-### Writing behaviours
+## Writing behaviors
 
 Soon...
+
+## Contribution
+
+If you have any suggestions or want to write new features or behaviors please contact me, or just create issue or pull request.
+
+## License
+
+MIT
