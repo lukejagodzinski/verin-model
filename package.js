@@ -3,7 +3,7 @@ Package.describe({
 });
 
 Package.on_use(function (api) {
-  api.use(['meteor', 'underscore']);
+  api.use(['meteor', 'underscore', 'minimongo']);
   
   api.add_files([
     'lib/schema.js',
