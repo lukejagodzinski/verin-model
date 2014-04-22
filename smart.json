@@ -1,11 +1,9 @@
 {
-  "name": "zeitgeist-model",
-  "description": "Model layer designed for Meteor",
-  "homepage": "https://github.com/jagi/zeitgeist-model",
-  "author": "Łukasz Jagodziński (https://github.com/jagi)",
-  "version": "0.1.0",
-  "git": "https://github.com/jagi/zeitgeist-model.git",
-  "packages": {
-    "zeitgeist-class": {}
-  }
+    "name": "verin-model",
+    "description": "Model layer designed for Meteor",
+    "homepage": "https://github.com/jagi/verin-model",
+    "author": "Łukasz Jagodziński (https://github.com/jagi)",
+    "version": "0.1.0",
+    "git": "https://github.com/jagi/verin-model.git",
+    "packages": {}
 }
