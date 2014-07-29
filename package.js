@@ -14,7 +14,7 @@ Package.on_use(function (api) {
     ], ['client', 'server']);
 
     api.export([
-        'Model',
+        'Class',
         'Behavior'
     ], ['client', 'server']);
 });
