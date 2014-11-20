@@ -2,6 +2,10 @@
 
 Model layer for Meteor
 
+## IMPORTANT
+
+This package is deprecated. I'm working on its new version.
+
 **Table of Contents**
 
 - [Functionalities](#functionalities)
