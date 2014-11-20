@@ -4,7 +4,7 @@ Model layer for Meteor
 
 ## IMPORTANT
 
-This package is deprecated. I'm working on its new version.
+THIS PACKAGE IS DEPRECATED. I'M WORKING ON ITS NEW VERSION.
 
 **Table of Contents**
 
